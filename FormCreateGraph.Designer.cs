@@ -113,6 +113,7 @@
             // 
             // buttonDelete
             // 
+            this.buttonDelete.Enabled = false;
             this.buttonDelete.Location = new System.Drawing.Point(825, 180);
             this.buttonDelete.Name = "buttonDelete";
             this.buttonDelete.Size = new System.Drawing.Size(124, 23);
@@ -135,6 +136,9 @@
             this.Controls.Add(this.listBoxMatrixAdj);
             this.Controls.Add(this.buttonCreateRoot);
             this.Controls.Add(this.buttonCreateLeaf);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FormCreateGraph";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Создание/изменение графа";

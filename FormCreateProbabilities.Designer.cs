@@ -132,9 +132,10 @@
             this.Controls.Add(this.buttonAdd);
             this.Controls.Add(this.textBoxImputValue);
             this.Controls.Add(this.listBoxProbabilities);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "FormCreateProbabilities";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FormCreateProbabilities";
+            this.Text = "Ввод вероятностей";
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Bayesian_network_ES
 {
+    /// <summary>
+    /// Start form with user interface
+    /// </summary>
     public partial class FormMain : Form
     {
         /// <summary>
@@ -37,47 +34,46 @@ namespace Bayesian_network_ES
             TestListNodes();
         }
 
+        /// <summary>
+        /// Create test Bayesian network
+        /// </summary>
         void TestListNodes()
         {
             List<Node> Parents = new List<Node>();
             List<Node> Children = new List<Node>();
 
-            listNodes.AddFact("Пациент старше 60 лет");
+            listNodes.AddFact("Пациент пожилого возраста");
 
             listNodes.AddFact("Пациент перенес операцию");
 
             Parents.Add(listNodes.FindFact("Пациент перенес операцию"));
-            listNodes.AddFact("Проблемы с рефракцией");
-            listNodes.AddFactLeaf("Проблемы с рефракцией", Parents);
+            listNodes.AddFact("Патология аккомодации");
+            listNodes.AddFactLeaf("Патология аккомодации", Parents);
             Parents.Clear();
 
-            Parents.Add(listNodes.FindFact("Пациент старше 60 лет"));
-            listNodes.AddFactLeaf("Катаракта", Parents);
+            Parents.Add(listNodes.FindFact("Пациент пожилого возраста"));
+            listNodes.AddFactLeaf("Помутнение хрусталика", Parents);
             Parents.Clear();
 
-            Parents.Add(listNodes.FindFact("Проблемы с рефракцией"));
-            listNodes.AddFactLeaf("Косоглазие улучшает зрение", Parents);
+            Parents.Add(listNodes.FindFact("Патология аккомодации"));
+            listNodes.AddFactLeaf("Развитие косоглазия", Parents);
             Parents.Clear();
 
-            Parents.Add(listNodes.FindFact("Проблемы с рефракцией"));
-            Parents.Add(listNodes.FindFact("Катаракта"));
-            listNodes.AddFactLeaf("Дефект зрения", Parents);
+            Parents.Add(listNodes.FindFact("Патология аккомодации"));
+            Parents.Add(listNodes.FindFact("Помутнение хрусталика"));
+            listNodes.AddFactLeaf("Синдром ухудшения зрения", Parents);
             Parents.Clear();
 
-            Parents.Add(listNodes.FindFact("Дефект зрения"));
+            Parents.Add(listNodes.FindFact("Синдром ухудшения зрения"));
             listNodes.AddFactLeaf("Повышенное давление", Parents);
             Parents.Clear();
 
-            Parents.Add(listNodes.FindFact("Катаракта"));
-            listNodes.AddFactLeaf("Нарушение рефлекса сетчатки", Parents);
+            Parents.Add(listNodes.FindFact("Помутнение хрусталика"));
+            listNodes.AddFactLeaf("Патологический рефлекс сетчатки", Parents);
             Parents.Clear();
             RefreshForm();
-            //#if DEBUG
-            //            listBoxMatrixAdj.Items.Add(listNodes.FindParents(listNodes.FindFact("Дефект зрения")).Count);
-            //            listBoxMatrixAdj.Items.Add(listNodes.FindChildrens(listNodes.FindFact("Дефект зрения")).Count);
-            //            listBoxMatrixAdj.Items.Add(listNodes.FindChildrens(listNodes.FindFact("Проблемы с рефракцией")).Count);
-            //#endif
 
+            //-------------------------------------Create test network
             listNodes.InitProbs();
 
             listNodes.Nodes[0].SetProbability(0, 0.01);
@@ -260,6 +256,11 @@ namespace Bayesian_network_ES
             this.Show();
         }
 
+        /// <summary>
+        /// Execute posterior probability
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonExecute_Click(object sender, EventArgs e)
         {
             listNodes.ClearEvidences();
@@ -274,9 +275,7 @@ namespace Bayesian_network_ES
             {
                 temp.Add(listNodes.Belief(fact));
             }
-            //temp.RemoveAll(x => x == 1);
-            //temp = listNodes.Normalization(temp);
-            //listBoxResults.Items.Add(1);
+
             for (int i = 0; i < temp.Count; i++)
             {
                 listBoxResults.Items.Add((i+1).ToString() + ": " + temp[i].ToString()); 

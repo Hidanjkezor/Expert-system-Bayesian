@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormDialogChangeProb.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDialogChangeProb.Designer.cs">
+      <DependentUpon>FormDialogChangeProb.cs</DependentUpon>
+    </Compile>
     <Compile Include="Node.cs" />
     <Compile Include="FormCreateNode.cs">
       <SubType>Form</SubType>
@@ -101,6 +107,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormDialogCreate.resx">
       <DependentUpon>FormDialogCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDialogChangeProb.resx">
+      <DependentUpon>FormDialogChangeProb.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>

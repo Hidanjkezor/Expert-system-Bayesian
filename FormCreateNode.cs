@@ -1,26 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Bayesian_network_ES
 {
+    /// <summary>
+    /// Form with create node interface
+    /// </summary>
     public partial class FormCreateNode : Form
     {
-        public List<Node> listChildrenOrRoot;
+        /// <summary>
+        /// List with childrens or parents
+        /// </summary>
+        public List<Node> listChildrenOrParents;
+
+        /// <summary>
+        /// Instance of BayesianTree
+        /// </summary>
         BayesianTree fact_Nodes;
+
+        /// <summary>
+        /// Name of new node
+        /// </summary>
         public string newFactName;
 
+        /// <summary>
+        /// Contructor
+        /// </summary>
+        /// <param name="LeafOrNot"></param>
+        /// <param name="fact_Nodes"></param>
         public FormCreateNode(bool LeafOrNot, BayesianTree fact_Nodes)
         {
             InitializeComponent();
 
-            listChildrenOrRoot = new List<Node>();
+            listChildrenOrParents = new List<Node>();
             this.fact_Nodes = fact_Nodes;
             if (LeafOrNot)
             {
@@ -37,12 +50,22 @@ namespace Bayesian_network_ES
             }
         }
 
+        /// <summary>
+        /// Cancel button event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
 
+        /// <summary>
+        /// Accept button event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonAccept_Click(object sender, EventArgs e)
         {
             newFactName = textBoxNameNode.Text;
@@ -62,7 +85,7 @@ namespace Bayesian_network_ES
                 foreach (var connectedNodes in checkedListBoxConnectedNodes.CheckedItems)
                 {
                     Node newConnectedFact = fact_Nodes.FindFact(connectedNodes.ToString());
-                    listChildrenOrRoot.Add(newConnectedFact);
+                    listChildrenOrParents.Add(newConnectedFact);
                 }
                 this.DialogResult = DialogResult.OK;
             }

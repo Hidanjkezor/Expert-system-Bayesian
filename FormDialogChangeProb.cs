@@ -4,20 +4,20 @@ using System.Windows.Forms;
 namespace Bayesian_network_ES
 {
     /// <summary>
-    /// Form with dialog about creating new graph
+    /// Form with dialog about changing probabilities
     /// </summary>
-    public partial class FormDialogCreate : Form
+    public partial class FormDialogChangeProb : Form
     {
         /// <summary>
         /// Constructor
         /// </summary>
-        public FormDialogCreate()
+        public FormDialogChangeProb()
         {
             InitializeComponent();
         }
 
         /// <summary>
-        /// Accept event
+        /// Accept button event
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -28,13 +28,24 @@ namespace Bayesian_network_ES
         }
 
         /// <summary>
-        /// Cancel event
+        /// Cancel button event
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void buttonCancel_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Cancel;
+            this.DialogResult = DialogResult.No;
+            this.Close();
+        }
+
+        /// <summary>
+        /// Abort button event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonAbort_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Abort;
             this.Close();
         }
     }

@@ -1,24 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bayesian_network_ES
 {
+    /// <summary>
+    /// Class with realization of Bayesian network
+    /// </summary>
     public class BayesianTree
     {
-        int Id;
+        int Id;// need to initialize new nodes
         List<Node> _nodes;
         List<Edge> _edges;
         List<Node> _evidences;
 
+        /// <summary>
+        /// List nodes of BayesianTree
+        /// </summary>
         public List<Node> Nodes { get => _nodes; }
 
+        /// <summary>
+        /// List edges of BayesianTree
+        /// </summary>
         public List<Edge> Edges { get => _edges; }
 
+        /// <summary>
+        /// List evidences which were input
+        /// </summary>
         public List<Node> Evidences { get => _evidences; }
 
+        /// <summary>
+        /// Create BayesianTree
+        /// </summary>
         public BayesianTree()
         {
             _nodes = new List<Node>();
@@ -27,6 +40,11 @@ namespace Bayesian_network_ES
             Id = 0;
         }
 
+        /// <summary>
+        /// Create BayesianTree with nodes and edges
+        /// </summary>
+        /// <param name="Nodes"></param>
+        /// <param name="Edges"></param>
         public BayesianTree(List<Node> Nodes, List<Edge> Edges) 
         {
             _nodes = Nodes;
@@ -35,6 +53,10 @@ namespace Bayesian_network_ES
             Id = Nodes.Count;
         }
 
+        /// <summary>
+        /// Copy-constructor
+        /// </summary>
+        /// <param name="otherListNodes"></param>
         public BayesianTree(BayesianTree otherListNodes)
         {
             this.Id = otherListNodes.Id;
@@ -43,6 +65,11 @@ namespace Bayesian_network_ES
             this._evidences = new List<Node>(otherListNodes._evidences);
         }
 
+        /// <summary>
+        /// Add any node
+        /// </summary>
+        /// <param name="NameFact"></param>
+        /// <returns></returns>
         Node AddFact_Node(string NameFact)
         {
             if (_nodes.All(x => x.NameFact != NameFact))
@@ -53,11 +80,14 @@ namespace Bayesian_network_ES
             }
             else
             {
-                //Бросить исключение
                 return null;
             }
         }
 
+        /// <summary>
+        /// Add edge to edges
+        /// </summary>
+        /// <param name="newEdge"></param>
         void AddRelation_Edge(Edge newEdge)
         {
             if (_edges.All(x => !x.Equals(newEdge)))
@@ -66,7 +96,7 @@ namespace Bayesian_network_ES
             }
             else
             {
-                //Бросить исключение
+                throw new Exception("Эта связь уже задана!");
             }
         }
 
@@ -248,6 +278,10 @@ namespace Bayesian_network_ES
             return Children;
         }
 
+        /// <summary>
+        /// Create adjacency matrix
+        /// </summary>
+        /// <returns></returns>
         public int[,] fillAdjacencyMatrix()
         {
             int countNode = Nodes.Count();
@@ -264,6 +298,10 @@ namespace Bayesian_network_ES
             return matrix;
         }
 
+        /// <summary>
+        /// Create incidence matrix
+        /// </summary>
+        /// <returns></returns>
         public int[,] fillIncidenceMatrix()
         {
             int countNodes = Nodes.Count;
@@ -303,12 +341,22 @@ namespace Bayesian_network_ES
             return res;
         }
 
+        /// <summary>
+        /// Is probability filled
+        /// </summary>
+        /// <param name="FactID"></param>
+        /// <returns></returns>
         public bool checkFillingProbability(int FactID)
         {
             Node currectFact = FindFact(FactID);
             return checkFillingProbability(currectFact);
         }
 
+        /// <summary>
+        /// Is probability filled
+        /// </summary>
+        /// <param name="currectFact"></param>
+        /// <returns></returns>
         public bool checkFillingProbability(Node currectFact)
         {
             int countParents = FindParents(currectFact).Count;
@@ -356,10 +404,10 @@ namespace Bayesian_network_ES
         }
 
         /// <summary>
-        /// 
+        /// Remove node from Nodes
         /// </summary>
         /// <param name="Node"></param>
-        public void Delete(Node Node) 
+        public void Delete(Node Node)
         {
             bool resultOfDeleteEdges = true;
             if (FindFact(Node.ID) != null)
@@ -400,6 +448,11 @@ namespace Bayesian_network_ES
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Edges"></param>
+        /// <returns></returns>
         public bool Delete(List<Edge> Edges)
         {
             foreach (var Edge in Edges)
@@ -409,47 +462,81 @@ namespace Bayesian_network_ES
             return false;
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Edge"></param>
+        /// <returns></returns>
         public bool Delete(Edge Edge)
         {
             return _edges.Remove(Edge);
         }
 
+        /// <summary>
+        /// Remove evidence from evidences
+        /// </summary>
+        /// <param name="Evidence"></param>
         public void DeleteEvidence(Node Evidence)
         {
             if (!_evidences.Remove(Evidence) && !Nodes.Contains(Evidence))
             {
-                //Бросить исключение
+                throw new Exception("Событие не найдено!");
             }
         }
 
+        /// <summary>
+        /// Add new evidence to evidences
+        /// </summary>
+        /// <param name="Evidence"></param>
         public void AddEvidence(Node Evidence)
         {
             if (!_evidences.Contains(Evidence) && Nodes.Contains(Evidence))
             {
                 _evidences.Add(Evidence);
             }
-            else
+            else if (!_evidences.Contains(Evidence))
             {
-                //Бросить исключение
+                throw new Exception("Событие уже является свидетельством");
+            }
+            else if (Nodes.Contains(Evidence))
+            {
+                throw new Exception("Событие не найдено!");
             }
         }
 
+        /// <summary>
+        /// Clear list of evidences
+        /// </summary>
         public void ClearEvidences()
         {
             _evidences.Clear();
         }
 
+        /// <summary>
+        /// Is evidences contains evidence
+        /// </summary>
+        /// <param name="Fact"></param>
+        /// <returns></returns>
         public bool IsInEvidence(Node Fact)
         {
             return _evidences.Contains(Fact);
         }
 
+        /// <summary>
+        /// Is evidences contains evidence
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
         public bool IsInEvidence(int ID)
         {
             return IsInEvidence(FindFact(ID));
         }
 
+        /// <summary>
+        /// Normalize probability distribution
+        /// </summary>
+        /// <param name="Prob"></param>
+        /// <returns></returns>
         public List<double> Normalization(List<double> Prob)
         {
             int countProb = Prob.Count;
@@ -458,26 +545,22 @@ namespace Bayesian_network_ES
 
             for (int i = 0; i < countProb; i++)
             {
-                //if (Prob[i] != 1)
-                //{
-                    normKoef += Prob[i];
-                //}
+                normKoef += Prob[i];
             }
             for (int i = 0; i < countProb; i++)
             {
-                //if (Prob[i] != 1)
-                //{
-                    res.Add(Prob[i] / normKoef);
-                //}
-                //else
-                //{
-                //    res.Add(Prob[i]);
-                //}
-                
+                res.Add(Prob[i] / normKoef);
             }
+
             return res;
         }
         
+        /// <summary>
+        /// Find E+ set
+        /// </summary>
+        /// <param name="Fact"></param>
+        /// <param name="WithoutFacts"></param>
+        /// <returns></returns>
         public List<Node> FindCommitedEvidencesWith(Node Fact, List<Node> WithoutFacts)
         {
             List<Node> result = new List<Node>();
@@ -495,6 +578,12 @@ namespace Bayesian_network_ES
             }
         }
 
+        /// <summary>
+        /// Help func of FindCommitedEvidencesWith
+        /// </summary>
+        /// <param name="Fact"></param>
+        /// <param name="WithoutFacts"></param>
+        /// <param name="result"></param>
         private void FindCommitedHelper(Node Fact, List<Node> WithoutFacts, ref List<Node> result)
         {
             List<Node> parents = FindParents(Fact);
@@ -511,6 +600,12 @@ namespace Bayesian_network_ES
             }
         }
 
+        /// <summary>
+        /// Find E- set
+        /// </summary>
+        /// <param name="Fact"></param>
+        /// <param name="WithoutFacts"></param>
+        /// <returns></returns>
         public List<Node> FindBottomCommitedEvidencesWith(Node Fact, List<Node> WithoutFacts)
         {
             List<Node> result = new List<Node>();
@@ -528,6 +623,12 @@ namespace Bayesian_network_ES
             }
         }
 
+        /// <summary>
+        /// Help func of FindBottomCommitedEvidencesWith
+        /// </summary>
+        /// <param name="Fact"></param>
+        /// <param name="WithoutFacts"></param>
+        /// <param name="result"></param>
         private void FindBottomCommitedHelper(Node Fact, List<Node> WithoutFacts, ref List<Node> result)
         {
             List<Node> children = FindChildren(Fact);
@@ -544,6 +645,11 @@ namespace Bayesian_network_ES
             }
         }
 
+        /// <summary>
+        /// Find posterior probability
+        /// </summary>
+        /// <param name="Fact"></param>
+        /// <returns></returns>
         public double Belief(Node Fact)
         {
             if (Evidences.Count > 0)
@@ -562,12 +668,16 @@ namespace Bayesian_network_ES
             }
         }
 
+        /// <summary>
+        /// Belief of fact
+        /// </summary>
+        /// <param name="Fact"></param>
+        /// <param name="V"></param>
+        /// <returns></returns>
         private double BeliefExcept(Node Fact, List<Node> V)
         {
             if (IsInEvidence(Fact))
             {
-                //Random r = new Random();
-                //return r.NextDouble();
                 return 1;
             }
 
@@ -614,6 +724,12 @@ namespace Bayesian_network_ES
             }
         }
 
+        /// <summary>
+        /// Except evidence
+        /// </summary>
+        /// <param name="Fact"></param>
+        /// <param name="V"></param>
+        /// <returns></returns>
         private double EvidenceExcept(Node Fact, List<Node> V)
         {
             List<Node> children = FindChildren(Fact);
@@ -628,12 +744,6 @@ namespace Bayesian_network_ES
 
             if (children.Count == 0)
             {
-                //double sumProb = 0;
-                //foreach (var Prob in Fact.Probabilities)
-                //{
-                //    sumProb += Prob;
-                //}
-                //return sumProb;
                 Random r = new Random();
                 return r.NextDouble();
             }

@@ -30,14 +30,14 @@
         {
             this.labelAreYouSure = new System.Windows.Forms.Label();
             this.buttonCancel = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonSaveAs = new System.Windows.Forms.Button();
             this.buttonAccept = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // labelAreYouSure
             // 
             this.labelAreYouSure.AutoSize = true;
-            this.labelAreYouSure.Location = new System.Drawing.Point(40, 36);
+            this.labelAreYouSure.Location = new System.Drawing.Point(47, 35);
             this.labelAreYouSure.Name = "labelAreYouSure";
             this.labelAreYouSure.Size = new System.Drawing.Size(236, 26);
             this.labelAreYouSure.TabIndex = 0;
@@ -53,14 +53,15 @@
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
-            // button1
+            // buttonSaveAs
             // 
-            this.button1.Location = new System.Drawing.Point(12, 90);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(105, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Сохранить как";
-            this.button1.UseVisualStyleBackColor = true;
+            this.buttonSaveAs.Enabled = false;
+            this.buttonSaveAs.Location = new System.Drawing.Point(12, 90);
+            this.buttonSaveAs.Name = "buttonSaveAs";
+            this.buttonSaveAs.Size = new System.Drawing.Size(105, 23);
+            this.buttonSaveAs.TabIndex = 2;
+            this.buttonSaveAs.Text = "Сохранить как";
+            this.buttonSaveAs.UseVisualStyleBackColor = true;
             // 
             // buttonAccept
             // 
@@ -78,12 +79,15 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(395, 125);
             this.Controls.Add(this.buttonAccept);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttonSaveAs);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.labelAreYouSure);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FormDialogCreate";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FormDialogCreate";
+            this.Text = "Создание сети";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -93,7 +97,7 @@
 
         private System.Windows.Forms.Label labelAreYouSure;
         private System.Windows.Forms.Button buttonCancel;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonSaveAs;
         private System.Windows.Forms.Button buttonAccept;
     }
 }

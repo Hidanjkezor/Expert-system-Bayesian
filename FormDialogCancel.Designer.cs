@@ -71,9 +71,12 @@
             this.Controls.Add(this.buttonAccept);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.labelCancelWarning);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FormDialogCancel";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FormDialogCancel";
+            this.Text = "Отмена изменений";
             this.ResumeLayout(false);
             this.PerformLayout();
 

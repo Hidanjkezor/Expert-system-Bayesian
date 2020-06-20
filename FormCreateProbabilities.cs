@@ -1,20 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Bayesian_network_ES
 {
+    /// <summary>
+    /// Form with input probabilities interface
+    /// </summary>
     public partial class FormCreateProbabilities : Form
     {
+        /// <summary>
+        /// List nodes from main form
+        /// </summary>
         BayesianTree listNodes;
-        List<List<double>> ArrayOfProbabilities;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="formMain"></param>
         public FormCreateProbabilities(FormMain formMain)
         {
             this.listNodes = formMain.listNodes;
@@ -24,18 +27,26 @@ namespace Bayesian_network_ES
             InitForm();
         }
 
-        private void RefreshForm()
+        /// <summary>
+        /// Constructor without initialize probabilities
+        /// </summary>
+        /// <param name="formMain"></param> 
+        public FormCreateProbabilities(FormMain formMain, bool withoutInit)
         {
-            fillListBoxNodes();
-            Node selectedNode = listNodes.Nodes[listBoxNodes.SelectedIndex];
-            fillListBoxProbabilities(selectedNode, false);
-            fillListBoxParents(selectedNode);
+            this.listNodes = formMain.listNodes;
+
+            InitializeComponent();
+            InitForm();
+            IsProbabilityEntered();
         }
 
+        /// <summary>
+        /// Initialize form with start fields
+        /// </summary>
         private void InitForm()
         {
             fillListBoxNodes();
-            Node defaultNode = listNodes.Nodes[0]; //
+            Node defaultNode = listNodes.Nodes[0]; 
             fillListBoxProbabilities(defaultNode, false);
             fillListBoxParents(defaultNode);
 
@@ -44,11 +55,17 @@ namespace Bayesian_network_ES
             textBoxImputValue.Select();
         }
 
+        /// <summary>
+        /// Initialize probabilities with default values
+        /// </summary>
         private void InitProbs()
         {
             listNodes.InitProbs();
         }
 
+        /// <summary>
+        /// Fill listBoxNodes
+        /// </summary>
         private void fillListBoxNodes()
         {
             //Save selected string
@@ -62,7 +79,7 @@ namespace Bayesian_network_ES
             for (int i = 0; i < countNode; i++)
             {
                 sOut = (i + 1) + " - " + listNodes.Nodes[i].NameFact + "--->" 
-                    + (listNodes.Nodes[i].CheckProbabilities( ) ? "OK" : "CHECK");
+                    + (listNodes.Nodes[i].CheckProbabilities() ? "OK" : "CHECK");
                 listBoxNodes.Items.Add(sOut);
             }
 
@@ -70,21 +87,11 @@ namespace Bayesian_network_ES
             listBoxNodes.SelectedIndex = selectedIndex;
         }
 
-        //private void fillListBoxProbabilities(Fact_Node selectedNode)
-        //{
-        //    listBoxProbabilities.Items.Clear();
-
-        //    int countProb = selectedNode.Probabilities.Count;
-
-        //    for (int index = 0; index < countProb; index++)
-        //    {
-        //        listBoxProbabilities.Items.Add(selectedNode.conditionalProb(index) + ": ");
-        //    }
-
-        //    //Turn selected to first
-        //    listBoxProbabilities.SelectedIndex = 0;
-        //}
-
+        /// <summary>
+        /// Fill listBoxProbabilities
+        /// </summary>
+        /// <param name="selectedNode"></param>
+        /// <param name="IsChangeProb"></param>
         private void fillListBoxProbabilities(Node selectedNode, bool IsChangeProb)
         {
             //Save selected string
@@ -120,6 +127,10 @@ namespace Bayesian_network_ES
             }
         }
 
+        /// <summary>
+        /// Fill listBoxParents
+        /// </summary>
+        /// <param name="selectedNode"></param>
         private void fillListBoxParents(Node selectedNode)
         {
             listBoxNodeAndParents.Items.Clear();
@@ -140,9 +151,14 @@ namespace Bayesian_network_ES
             }
         }
 
+        /// <summary>
+        /// Accept button event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonAccept_Click(object sender, EventArgs e)
         {
-            if (listNodes.checkFillingOfProbabilities()) //введенны все вероятности
+            if (listNodes.checkFillingOfProbabilities()) //all probabilities were inputed
             {
                 this.DialogResult = DialogResult.OK;
                 this.Close();
@@ -153,6 +169,11 @@ namespace Bayesian_network_ES
             }
         }
 
+        /// <summary>
+        /// Cancel button event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             FormDialogCancel formDialogCancel = new FormDialogCancel();
@@ -164,12 +185,22 @@ namespace Bayesian_network_ES
 
         }
 
+        /// <summary>
+        /// Back button event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonBack_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
 
+        /// <summary>
+        /// Event of changing index in listBoxNodes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void listBoxNodes_SelectedIndexChanged(object sender, EventArgs e)
         {
             Node selectedNode = listNodes.Nodes[listBoxNodes.SelectedIndex];
@@ -177,12 +208,17 @@ namespace Bayesian_network_ES
             fillListBoxParents(selectedNode);
         }
 
+        /// <summary>
+        /// Add button event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonAdd_Click(object sender, EventArgs e)
         {
             try
             {
                 double ImputValue = Convert.ToDouble(textBoxImputValue.Text);
-                if (ImputValue <= 0 || ImputValue > 1)
+                if (ImputValue <= 0 || ImputValue >= 1)
                 {
                     throw (new Exception("Значение должно быть между нулем и единицей"));
                 }
@@ -206,6 +242,10 @@ namespace Bayesian_network_ES
             }
         }
 
+        /// <summary>
+        /// Is probability entered
+        /// </summary>
+        /// <returns></returns>
         private bool IsProbabilityEntered()
         {
             if (listNodes.checkFillingOfProbabilities())

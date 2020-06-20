@@ -51,7 +51,7 @@
             // listBoxMatrixInc
             // 
             this.listBoxMatrixInc.FormattingEnabled = true;
-            this.listBoxMatrixInc.Location = new System.Drawing.Point(45, 356);
+            this.listBoxMatrixInc.Location = new System.Drawing.Point(45, 385);
             this.listBoxMatrixInc.Name = "listBoxMatrixInc";
             this.listBoxMatrixInc.Size = new System.Drawing.Size(218, 264);
             this.listBoxMatrixInc.TabIndex = 1;
@@ -69,7 +69,7 @@
             // listBoxEdges
             // 
             this.listBoxEdges.FormattingEnabled = true;
-            this.listBoxEdges.Location = new System.Drawing.Point(328, 356);
+            this.listBoxEdges.Location = new System.Drawing.Point(328, 385);
             this.listBoxEdges.Name = "listBoxEdges";
             this.listBoxEdges.Size = new System.Drawing.Size(354, 264);
             this.listBoxEdges.TabIndex = 7;
@@ -112,7 +112,7 @@
             // listBoxResults
             // 
             this.listBoxResults.FormattingEnabled = true;
-            this.listBoxResults.Location = new System.Drawing.Point(813, 356);
+            this.listBoxResults.Location = new System.Drawing.Point(813, 385);
             this.listBoxResults.Name = "listBoxResults";
             this.listBoxResults.Size = new System.Drawing.Size(208, 264);
             this.listBoxResults.TabIndex = 11;
@@ -131,7 +131,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1359, 749);
+            this.ClientSize = new System.Drawing.Size(1056, 749);
             this.Controls.Add(this.buttonExecute);
             this.Controls.Add(this.listBoxResults);
             this.Controls.Add(this.checkedListBoxEvidences);
@@ -142,6 +142,9 @@
             this.Controls.Add(this.buttonCreateGraph);
             this.Controls.Add(this.listBoxMatrixInc);
             this.Controls.Add(this.listBoxMatrixAdj);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Байесовская сеть";

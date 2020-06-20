@@ -1,21 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bayesian_network_ES
 {
+    /// <summary>
+    /// Class nodes in Bayesian network
+    /// </summary>
     public class Node
     {
+        /// <summary>
+        /// Name of node
+        /// </summary>
         public string NameFact { get; set; }
 
+        /// <summary>
+        /// ID of node
+        /// </summary>
         public int ID { get; }
 
-        public List<double> Probabilities { get => _probabilities; }
+        /// <summary>
+        /// List probabilities in Bayesian network
+        /// </summary>
+        public List<double> Probabilities { get; private set; }
 
-        private List<double> _probabilities;
-
+        /// <summary>
+        /// Create node of Bayesian network
+        /// </summary>
+        /// <param name="NameFact"></param>
+        /// <param name="ID"></param>
         public Node(string NameFact, int ID) 
         {
             this.NameFact = NameFact;
@@ -29,11 +42,11 @@ namespace Bayesian_network_ES
         public void InitProbabilities(int countParents)
         {
             int countProb = (int)Math.Pow(2, countParents);
-            _probabilities = new List<double>(countProb);
+            Probabilities = new List<double>(countProb);
 
             for (int i = 0; i < countProb; i++)
             {
-                _probabilities.Add(-1);
+                Probabilities.Add(-1);
             }
         }
 
@@ -44,9 +57,9 @@ namespace Bayesian_network_ES
         /// <param name="value"></param>
         public void SetProbability(int index, double value)
         {
-            if (index < _probabilities.Count && value > 0 && value <= 1)
+            if (index < Probabilities.Count && value > 0 && value <= 1)
             {
-                _probabilities[index] = value;
+                Probabilities[index] = value;
             }
             else
             {
@@ -74,7 +87,7 @@ namespace Bayesian_network_ES
         /// <returns></returns>
         public bool CheckProbabilities()
         {
-            foreach (var prob in _probabilities)
+            foreach (var prob in Probabilities)
             {
                 if (prob == -1)
                 {
@@ -92,14 +105,13 @@ namespace Bayesian_network_ES
         public string conditionalProb(int index)
         {
             string binCode = Convert.ToString(index, 2);
-            if (index <= _probabilities.Count)
+            if (index <= Probabilities.Count)
             {
                 return conditionalProb(binCode);
             }
             else
             {
-                //Исключение
-                return null;
+                throw new Exception("Индекс вышел за пределы массива");
             }
             
         }
@@ -113,7 +125,7 @@ namespace Bayesian_network_ES
         {
             string res = "";
             int countBinCode = binCode.Length;
-            int countParents = (int)Math.Log(_probabilities.Count, 2);
+            int countParents = (int)Math.Log(Probabilities.Count, 2);
             char logicChar = (char)('a' + countParents - 1);
 
             for (int index = countBinCode - 1; index >= 0; index--)

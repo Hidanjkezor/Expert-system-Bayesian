@@ -100,9 +100,12 @@
             this.Controls.Add(this.labelLeafOrRoot);
             this.Controls.Add(this.labelNameNode);
             this.Controls.Add(this.textBoxNameNode);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FormCreateNode";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FormCreateNode";
+            this.Text = "Создание нового узла";
             this.ResumeLayout(false);
             this.PerformLayout();
 
